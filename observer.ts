@@ -40,6 +40,8 @@ export const observer = render => {
   return (props: any, ref: any) => {
     const observerContext = useRef(new ObserverContext()).current;
 
+    useEffect(() => () => observerContext.destory(), []);
+
     const prev = startBatch(observerContext)
     const renderResult = render(props, ref);
     endBatch(prev);
@@ -49,8 +51,6 @@ export const observer = render => {
       observerContext.getState, 
       observerContext.getState
     );
-
-    useEffect(() => () => observerContext.destory(), []);
 
     return renderResult;
   };
